@@ -150,9 +150,11 @@ function execute_request(socket, msg)
             invokelatest(hook)
         end
 
+        code_wrapped = "include_string(raw\"" * replace(code, r"\"", "\\\"") * "\", \"In[$n]\")"
+
         #run the code!
         ans = result = ismatch(magics_regex, code) ? magics_help(code) :
-            include_string(Main, code, "In[$n]")
+            include_string(Main, code_wrapped, "In[$n]")
 
         if silent
             result = nothing
